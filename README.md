@@ -88,3 +88,26 @@ python src/image_sorter/transformer.py /Users/nuno/Library/CloudStorage/ProtonDr
 * Non-image files are ignored.
 * Corrupted or unsupported images are skipped.
 * A progress bar displays resizing progress for large directories.
+
+# Renamer
+A Python script that renames images based on their EXIF "date taken" metadata. Images are ordered chronologically and renamed in place to `<base_name>-1.ext`, `<base_name>-2.ext`, etc.
+
+## Usage
+
+```bash
+python src/image_operator/renamer.py /path/to/your/images base_name
+```
+
+### Example
+```bash
+python src/image_operator/renamer.py /Users/nuno/Library/CloudStorage/ProtonDrive-nuno.cruz.87@pm.me-folder/Photos/2026/IG\ post vacation
+```
+
+## Notes
+
+* Only files in the top-level directory are processed (no subfolders).
+* Images are ordered by EXIF `DateTimeOriginal` (falling back to `DateTime` if not present).
+* If no EXIF date is available, the file's creation date is used instead.
+* Non-image files are ignored.
+* Corrupted or unsupported images are skipped.
+* A progress bar displays renaming progress for large directories.
