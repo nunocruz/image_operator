@@ -65,7 +65,7 @@ def rename_images_by_date(source_dir: str, base_name: str) -> None:
 
         dated_files.append((date_taken, file_path))
 
-    dated_files.sort(key=lambda item: (item[0], item[1].name))
+    dated_files.sort(key=lambda item: (item[0], item[1].name), reverse=True)
 
     temp_renames = []
     for index, (_, file_path) in enumerate(
@@ -78,7 +78,9 @@ def rename_images_by_date(source_dir: str, base_name: str) -> None:
         except Exception as ex:
             print(f"Skipping {file_path.name}: {ex}")
 
-    for temp_path, index, suffix in temp_renames:
+    for temp_path, index, suffix in tqdm(
+        temp_renames, desc="Finalizing names", unit="file"
+    ):
         final_path = temp_path.with_name(f"{base_name}-{index}{suffix}")
         try:
             temp_path.rename(final_path)
