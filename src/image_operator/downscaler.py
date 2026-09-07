@@ -73,7 +73,16 @@ def downscale_images(source_dir: str, max_dim: int = MAX_DIMENSION) -> None:
                 resized = img.resize(new_size, Image.LANCZOS)
 
                 tmp_path = file_path.with_name(f".{file_path.name}.tmp")
-                resized.save(tmp_path, format=image_format, **save_kwargs)
+                try:
+                    resized.save(tmp_path, format=image_format, **save_kwargs)
+                except OSError:
+                    # libjpeg's optimized-Huffman path can overflow its internal
+                    # buffer on high-frequency images at quality=100 / no
+                    # subsampling ("broken data stream when writing image file").
+                    # Retry without optimize, which uses the non-optimizing path.
+                    if not save_kwargs.pop("optimize", False):
+                        raise
+                    resized.save(tmp_path, format=image_format, **save_kwargs)
                 tmp_path.replace(file_path)
 
         except Exception as ex:
