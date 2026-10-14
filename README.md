@@ -63,3 +63,33 @@ python src/image_operator/renamer.py /Users/nuno/Library/CloudStorage/ProtonDriv
 * Non-image files are ignored.
 * Corrupted or unsupported images are skipped.
 * Progress bars display the date-reading, renaming, and finalizing steps for large directories.
+
+# Sorter
+A Python script that sorts images into `horizontal`, `vertical`, and `square` subfolders based on their orientation.
+
+## Usage
+
+```bash
+python src/image_operator/sorter.py /path/to/your/images
+```
+
+### Options
+- `--copy`: Copy images into the destination folders instead of moving them (preserves originals)
+
+```bash
+python src/image_operator/sorter.py /path/to/your/images --copy
+```
+
+### Example
+```bash
+python src/image_operator/sorter.py /Users/nuno/Library/CloudStorage/ProtonDrive-nuno.cruz.87@pm.me-folder/Photos/2026/IG\ post
+```
+
+## Notes
+
+* Only files in the top-level directory are processed (no subfolders).
+* `horizontal`, `vertical`, and `square` subfolders are created inside the source directory as needed.
+* Images are moved by default; pass `--copy` to keep the originals in place.
+* Non-image files are ignored.
+* Corrupted or unsupported images are skipped.
+* A progress bar displays sorting progress for large directories.
